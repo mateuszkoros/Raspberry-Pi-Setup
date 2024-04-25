@@ -1,0 +1,11 @@
+---
+- name: Raspberry Pi Initial Setup
+  hosts: raspberry
+
+  tasks:
+  - name: System upgrade
+    apt:
+      upgrade: full
+      update_cache: yes
+      autoremove: yes
+    become: yes
