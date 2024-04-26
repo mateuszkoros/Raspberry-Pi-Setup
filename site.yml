@@ -5,6 +5,7 @@
   tasks:
   - name: System upgrade
     apt:
+      name: vim
       upgrade: full
       update_cache: yes
       autoremove: yes
