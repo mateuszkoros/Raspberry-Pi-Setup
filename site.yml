@@ -3,10 +3,13 @@
   hosts: raspberry
 
   tasks:
-  - name: System upgrade
+  - name: System Upgrade
     apt:
-      name: vim
       upgrade: full
       update_cache: yes
       autoremove: yes
+    become: yes
+  - name: Install Vim 
+    apt:
+      name: vim
     become: yes
