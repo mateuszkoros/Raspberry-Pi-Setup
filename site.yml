@@ -13,3 +13,9 @@
     apt:
       name: vim
     become: yes
+  - name: Configure Tailscale
+    include_role:
+      name: artis3n.tailscale
+    vars:
+      verbose: true
+      tailscale_authkey: "{{ lookup('env', 'TAILSCALE_KEY') }}"
