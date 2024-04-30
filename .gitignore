@@ -1,5 +1,5 @@
 venv/
 .env
 
-group_vars/
-hosts.ini
+ansible/group_vars/
+ansible/hosts.ini
