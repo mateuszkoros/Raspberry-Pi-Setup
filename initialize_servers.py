@@ -6,14 +6,16 @@ And runs Ansible playbook
 """
 
 import os
-from dotenv import load_dotenv
+import json
 import requests
+import ansible_runner
+from dotenv import load_dotenv
 
-def get_auth_key():
-    """
-    Send request to Tailscale API to generate reusable authentication key 
+def get_authentication_key():
+    '''
+    Send request to Tailscale API to generate reusable authentication key
     which will be used to add new machines to network
-    """
+    '''
     api_token = os.getenv('API_TOKEN')
     tailnet = os.getenv('TAILNET')
     tailscale_url = f'https://api.tailscale.com/api/v2/tailnet/{tailnet}/keys'
@@ -36,11 +38,20 @@ def get_auth_key():
         'description': 'Raspberry Pi'
     }
     response = requests.post(url=tailscale_url, headers=headers, json=data, timeout=300)
-    return response
+    return json.loads(response.text)['key']
 
-# def run_playbook(auth_key):
-#     playbook_results = ansible_runner.run(playbook='site.yml')
-#     print("{}: {}".format(playbook_results.status, playbook_results.rc))
+def run_playbook(auth_key):
+    '''
+    Run Ansible playbook passing received authentication key
+    '''
+    playbook_results = ansible_runner.run(
+        private_data_dir='./',
+        playbook='site.yml',
+        extravars={'tailscale_key': auth_key})
+    print(f'{playbook_results.status}: {playbook_results.rc}')
 
-load_dotenv()
-print(get_auth_key().text)
+
+if __name__ == '__main__':
+    load_dotenv()
+    authentication_key = get_authentication_key()
+    run_playbook(authentication_key)
