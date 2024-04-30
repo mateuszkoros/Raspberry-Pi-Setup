@@ -3,3 +3,5 @@ venv/
 
 ansible/group_vars/
 ansible/hosts.ini
+ansible/artifacts
+ansible/env
