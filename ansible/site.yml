@@ -18,3 +18,4 @@
       name: artis3n.tailscale
     vars:
       tailscale_authkey: "{{ tailscale_key }}"
+    no_log: True
