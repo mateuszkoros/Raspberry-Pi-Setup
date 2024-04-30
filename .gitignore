@@ -1,2 +1,5 @@
+venv/
+.env
+
 group_vars/
 hosts.ini
