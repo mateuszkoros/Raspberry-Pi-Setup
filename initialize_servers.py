@@ -10,6 +10,7 @@ import json
 import requests
 import ansible_runner
 from dotenv import load_dotenv
+from datetime import datetime
 
 def get_authentication_key():
     '''
@@ -37,6 +38,7 @@ def get_authentication_key():
         'expirySeconds': 300,
         'description': 'Raspberry Pi'
     }
+    log('Getting authentication key from Tailscale')
     response = requests.post(url=tailscale_url, headers=headers, json=data, timeout=300)
     return json.loads(response.text)['key']
 
@@ -44,11 +46,19 @@ def run_playbook(auth_key):
     '''
     Run Ansible playbook passing received authentication key
     '''
+    log('Running Ansible playbook')
     playbook_results = ansible_runner.run(
         private_data_dir='./ansible',
         playbook='site.yml',
         extravars={'tailscale_key': auth_key})
     print(f'{playbook_results.status}: {playbook_results.rc}')
+
+def log(msg):
+    '''
+    Print message with timestamp
+    '''
+    current_time = datetime.now().strftime('%d/%m/%Y %H:%M:%S')
+    print(f'{current_time}: {msg}')
 
 
 if __name__ == '__main__':
