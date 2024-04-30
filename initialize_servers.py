@@ -45,7 +45,7 @@ def run_playbook(auth_key):
     Run Ansible playbook passing received authentication key
     '''
     playbook_results = ansible_runner.run(
-        private_data_dir='./',
+        private_data_dir='./ansible',
         playbook='site.yml',
         extravars={'tailscale_key': auth_key})
     print(f'{playbook_results.status}: {playbook_results.rc}')
