@@ -17,5 +17,4 @@
     include_role:
       name: artis3n.tailscale
     vars:
-      verbose: true
       tailscale_authkey: "{{ tailscale_key }}"
