@@ -18,4 +18,4 @@
       name: artis3n.tailscale
     vars:
       verbose: true
-      tailscale_authkey: "{{ lookup('env', 'TAILSCALE_KEY') }}"
+      tailscale_authkey: "{{ tailscale_key }}""
